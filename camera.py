@@ -1,4 +1,7 @@
 import cv2
+from expressionhandler.FacialExpressionHandlerTest import FacialExpressionHandlerTest
+
+handler = FacialExpressionHandlerTest()
 
 # init camera
 cap = cv2.VideoCapture(0)
@@ -10,7 +13,7 @@ cap.set(10,300)
 face_cascade = cv2.CascadeClassifier('res/haarcascade_frontalface_default.xml')
 
 while True:
-    success,img =cap.read()
+    success,img = cap.read()
     if img is None:
         continue
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -19,7 +22,15 @@ while True:
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
         imgCropped = img[ y:y + h,x:x + w]
+        #imgCropped = cv2.Canny(imgCropped, 1, 255)
         cv2.imshow('img', imgCropped)
+
+        # predection happy / sad.......
+        # 0
+
+        handler.onAngry()
+
+
     #cv2.imwrite("test.jpg",img)
 
     if cv2.waitKey(1) & 0xFF ==ord('q'):
